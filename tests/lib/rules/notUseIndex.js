@@ -1,8 +1,7 @@
-
 "use strict";
 
-const rule = require("../../../lib/rules/notUseIndex"),
-    RuleTester = require("eslint").RuleTester;
+const rule = require("../../../lib/rules/notUseIndex");
+const { RuleTester } = require("eslint");
 
 RuleTester.setDefaultConfig({
     parserOptions: {
@@ -22,7 +21,10 @@ ruleTester.run("notUseIndex", rule, {
 
     invalid: [
         {
-            code: "import Title from './components/Title/Title';",
+            code: `
+            import _ from 'lodash';
+            import Title from './components/Title/Title';
+            `,
             errors: [{
                 message: 'Use index.js file for import module',
                 type: 'ImportDeclaration'

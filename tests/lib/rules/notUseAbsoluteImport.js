@@ -12,30 +12,38 @@ RuleTester.setDefaultConfig({
 
 const ruleTester = new RuleTester();
 const errors = [{
-    message: 'Use index.js file for import module',
+    message: 'Use relative import inside the module.',
     type: 'ImportDeclaration'
 }];
+
 ruleTester.run("notUseAbsoluteImport", rule, {
     valid: [
         {
             code: "import { ITitle } from '@/components/OtherModule/type';",
-            filename: "src/components/ModuleName/Title",
+            filename: "@/components/ModuleName/Title",
         },
         {
             code: "import { myFormat } from '@/constants/time';",
-            filename: "src/components/ModuleName/utils",
+            filename: "@/components/ModuleName/utils",
+        },
+        {
+            code: "import { myFormat } from './utils';",
+            filename: "@/components/ModuleName/utils",
+        },
+        {
+            code: "import { myFormat } from '../../type';",
+            filename: "@/components/ModuleName/utils",
         }
     ],
-
     invalid: [
         {
             code: "import { ITitle } from '@/components/ModuleName/type';",
-            filename: "src/components/ModuleName",
+            filename: "@/components/ModuleName",
             errors,
         },
         {
             code: "import { ITitle } from '@/components/ModuleName/constant';",
-            filename: "src/components/ModuleName/utils",
+            filename: "@/components/ModuleName/utils",
             errors,
         }
     ]
